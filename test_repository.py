@@ -98,3 +98,4 @@ def test_updating_a_batch(session):
     # print(session.execute("select * from allocations").fetchall())
     # print(session.execute("select * from order_lines").fetchall())
     assert get_allocations(session, "batch1") == {"order1", "order2"}
+    assert repo.get("batch1").available_quantity == 70
