@@ -1,6 +1,7 @@
 import model
 from datetime import date
 
+from sqlalchemy import text
 
 def test_orderline_mapper_can_load_lines(session):
     session.execute(
@@ -22,7 +23,7 @@ def test_orderline_mapper_can_save_lines(session):
     session.add(new_line)
     session.commit()
 
-    rows = list(session.execute('SELECT orderid, sku, qty FROM "order_lines"'))
+    rows = list(session.execute('SELECT orderid, sku, qty FROM `order_lines`'))
     assert rows == [("order1", "DECORATIVE-WIDGET", 12)]
 
 
@@ -48,7 +49,7 @@ def test_saving_batches(session):
     session.add(batch)
     session.commit()
     rows = session.execute(
-        'SELECT reference, sku, _purchased_quantity, eta FROM "batches"'
+        'SELECT reference, sku, _purchased_quantity, eta FROM `batches`'
     )
     assert list(rows) == [("batch1", "sku1", 100, None)]
 
@@ -59,7 +60,7 @@ def test_saving_allocations(session):
     batch.allocate(line)
     session.add(batch)
     session.commit()
-    rows = list(session.execute('SELECT orderline_id, batch_id FROM "allocations"'))
+    rows = list(session.execute('SELECT orderline_id, batch_id FROM `allocations`'))
     assert rows == [(batch.id, line.id)]
 
 

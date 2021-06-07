@@ -20,8 +20,13 @@ def mysql_db():
 
 
 @pytest.fixture
-def session(in_memory_db):
-    db = in_memory_db
+def session(mysql_db):
+    db = mysql_db
     start_mappers()
-    yield sessionmaker(bind=db)()
-    clear_mappers()
+    the_session = sessionmaker(bind=db)()
+    try:
+        yield the_session
+    finally:
+        the_session.close()
+        metadata.drop_all(db)
+        clear_mappers()
