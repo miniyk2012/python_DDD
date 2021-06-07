@@ -20,8 +20,8 @@ def mysql_db():
 
 
 @pytest.fixture
-def session(mysql_db):
-    db = mysql_db
+def session(in_memory_db):
+    db = in_memory_db
     start_mappers()
     the_session = sessionmaker(bind=db)()
     try:

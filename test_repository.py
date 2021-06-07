@@ -67,15 +67,15 @@ def test_repository_can_retrieve_a_batch_with_allocations(session):
     }
 
 
-def get_allocations(session, batchid):
+def get_allocations(session, ref):
     rows = list(
         session.execute(
             "SELECT orderid"
             " FROM allocations"
             " JOIN order_lines ON allocations.orderline_id = order_lines.id"
             " JOIN batches ON allocations.batch_id = batches.id"
-            " WHERE batches.reference = :batchid",
-            dict(batchid=batchid),
+            " WHERE batches.reference = :ref",
+            dict(ref=ref),
         )
     )
     return {row[0] for row in rows}
@@ -88,11 +88,13 @@ def test_updating_a_batch(session):
     batch.allocate(order1)
 
     repo = repository.SqlRepository(session)
-    repo.add(batch)
+    repo.add(batch)  # 会自动把order_lines和batches插入数据库哟
     session.commit()
 
     batch.allocate(order2)
-    repo.add(batch)
+    repo.add(batch)  # 这里会把新增的order2以及allcations关系加入到数据库. 但不会重复加入order1和batch
     session.commit()
-
+    # print(session.execute("select * from batches").fetchall())
+    # print(session.execute("select * from allocations").fetchall())
+    # print(session.execute("select * from order_lines").fetchall())
     assert get_allocations(session, "batch1") == {"order1", "order2"}

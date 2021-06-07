@@ -18,8 +18,11 @@ class SqlRepository(AbstractRepository):
 
     def add(self, batch):
         # self.session.execute('INSERT INTO ??
-        ...
+        self.session.add(batch)
 
     def get(self, reference) -> model.Batch:
         # self.session.execute('SELECT ??
-        ...
+        return self.session.query(model.Batch).filter_by(reference=reference).one()
+
+    def list(self):
+        return self.session.query(model.Batch).all()
