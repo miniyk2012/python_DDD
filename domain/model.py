@@ -28,7 +28,7 @@ class Batch:
     def __init__(self, ref: str, sku: str, qty: int, eta: Optional[date]):
         self.reference = ref
         self.sku = sku
-        self.eta = eta
+        self.eta = eta  # 估计到达时间
         self._purchased_quantity = qty
         self._allocations = set()  # type: Set[OrderLine]
 
@@ -44,6 +44,7 @@ class Batch:
         return hash(self.reference)
 
     def __gt__(self, other):
+        """优先分配没有eta的, 然后分配eta早的"""
         if self.eta is None:
             return False
         if other.eta is None:
