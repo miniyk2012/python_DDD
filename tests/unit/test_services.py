@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 from adapters import repository
 from service_layer import services
@@ -52,3 +54,19 @@ def test_commits():
     services.add_batch("b1", "OMINOUS-MIRROR", 100, None, repo, session)
     services.allocate("o1", "OMINOUS-MIRROR", 10, repo, session)
     assert session.committed is True
+
+
+# service-layer test:
+def test_prefers_warehouse_batches_to_shipments():
+    """把domain层的单测搬到service层
+    可以代替test_allocate.py中的test_prefers_current_stock_batches_to_shipments用例"""
+    session = FakeSession()
+    repo = FakeRepository([])
+    tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+    services.add_batch("in-stock-batch", "RETRO-CLOCK", 100, None, repo, session)
+    services.add_batch("shipment-batch", "RETRO-CLOCK", 100, tomorrow, repo, session)
+
+    services.allocate('oref', "RETRO-CLOCK", 10, repo, session)
+
+    assert repo.get('in-stock-batch').available_quantity == 90
+    assert repo.get('shipment-batch').available_quantity == 100
