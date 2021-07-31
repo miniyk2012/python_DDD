@@ -28,6 +28,33 @@ def session_factory(in_memory_db):
 
 
 @pytest.fixture
+def fake_session_factory():
+    def inner_fake_session_factory():
+        class FakeSession:
+            def __init__(self):
+                self.committed = False
+                self.closed = False
+
+            def rollback(self):
+                if self.closed:
+                    raise RuntimeError('closed, cant rollback')
+                if not self.committed:
+                    self.committed = False
+
+            def commit(self):
+                if self.closed:
+                    raise RuntimeError('closed, cant commit')
+                self.committed = True
+
+            def close(self):
+                self.closed = True
+
+        return FakeSession()
+
+    return inner_fake_session_factory
+
+
+@pytest.fixture
 def session(session_factory):
     return session_factory()
 

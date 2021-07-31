@@ -1,6 +1,8 @@
 import pytest
 from allocation.domain import model
+from allocation.domain.model import Batch
 from allocation.service_layer import unit_of_work
+from tests.unit.test_services import FakeRepository
 
 
 def insert_batch(session, ref, sku, qty, eta):
@@ -24,20 +26,21 @@ def get_allocated_batch_ref(session, orderid, sku):
     return batchref
 
 
-def test_uow_can_retrieve_a_batch_and_allocate_to_it(session_factory):
-    session = session_factory()
-    insert_batch(session, "batch1", "HIPSTER-WORKBENCH", 100, None)
-    session.commit()
-
-    uow = unit_of_work.SqlAlchemyUnitOfWork(session_factory)
+def test_uow_can_retrieve_a_batch_and_allocate_to_it(fake_session_factory):
+    """写一个依赖于fake_session和fake_repository的UoW用例"""
+    uow = unit_of_work.SqlAlchemyUnitOfWork(fake_session_factory)
     with uow:
+        uow.batches = FakeRepository([Batch("batch1", "HIPSTER-WORKBENCH", 100, None)])
         batch = uow.batches.get(reference="batch1")
+        assert batch.available_quantity == 100
+        assert not uow.session.committed
         line = model.OrderLine("o1", "HIPSTER-WORKBENCH", 10)
         batch.allocate(line)
         uow.commit()
-
-    batchref = get_allocated_batch_ref(session, "o1", "HIPSTER-WORKBENCH")
-    assert batchref == "batch1"
+    assert uow.session.committed
+    the_batch = uow.batches.get("batch1")
+    assert the_batch.reference == "batch1"
+    assert the_batch.available_quantity == 90
 
 
 def test_rolls_back_uncommitted_work_by_default(session_factory):
