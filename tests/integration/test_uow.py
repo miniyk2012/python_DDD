@@ -27,7 +27,7 @@ def get_allocated_batch_ref(session, orderid, sku):
 
 
 def test_uow_can_retrieve_a_batch_and_allocate_to_it(fake_session_factory):
-    """写一个依赖于fake_session和fake_repository的UoW用例"""
+    """写一个依赖于fake_session和fake_repository的UoW用例, 这个用例只是个例子, 违反了DON’T MOCK WHAT YOU DON’T OWN原则"""
     uow = unit_of_work.SqlAlchemyUnitOfWork(fake_session_factory)
     with uow:
         uow.batches = FakeRepository([Batch("batch1", "HIPSTER-WORKBENCH", 100, None)])
