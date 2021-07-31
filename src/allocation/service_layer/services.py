@@ -21,7 +21,7 @@ def add_batch(
 ):
     with uow:
         uow.batches.add(model.Batch(ref, sku, qty, eta))
-        uow.commit()
+        uow.commit()  # 还是要手动提交哟
 
 
 def allocate(
