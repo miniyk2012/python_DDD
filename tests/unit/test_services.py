@@ -18,6 +18,10 @@ class FakeRepository(repository.AbstractRepository):
 
 
 class FakeUnitOfWork(unit_of_work.AbstractUnitOfWork):
+    def clear(self):
+        """恢复初始状态"""
+        self.committed = False
+
     def __init__(self):
         self.batches = FakeRepository([])
         self.committed = False
@@ -26,7 +30,8 @@ class FakeUnitOfWork(unit_of_work.AbstractUnitOfWork):
         self.committed = True
 
     def rollback(self):
-        pass
+        if not self.committed:
+            self.committed = False
 
 
 def test_add_batch():
@@ -45,10 +50,18 @@ def test_allocate_returns_allocation():
 
 def test_allocate_errors_for_invalid_sku():
     uow = FakeUnitOfWork()
-    services.add_batch("b1", "AREALSKU", 100, None, uow)
 
+    uow.clear()
+    assert not uow.committed
+    services.add_batch("b1", "AREALSKU", 100, None, uow)
+    assert uow.committed
+
+    uow.clear()
+    assert not uow.committed
     with pytest.raises(services.InvalidSku, match="Invalid sku NONEXISTENTSKU"):
         services.allocate("o1", "NONEXISTENTSKU", 10, uow)
+
+    assert not uow.committed
 
 
 def test_allocate_commits():
