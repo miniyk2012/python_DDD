@@ -47,7 +47,7 @@ def test_rolls_back_uncommitted_work_by_default(session_factory):
     uow = unit_of_work.SqlAlchemyUnitOfWork(session_factory)
     with uow:
         insert_batch(uow.session, "batch1", "MEDIUM-PLINTH", 100, None)
-
+        # 没有commit
     new_session = session_factory()
     rows = list(new_session.execute('SELECT * FROM "batches"'))
     assert rows == []
