@@ -1,25 +1,25 @@
+from typing import List
+
 import pytest
 from allocation.adapters import repository
+from allocation.domain import model
 from allocation.service_layer import services, unit_of_work
 
 
-class FakeRepository(repository.AbstractRepository):
-    def __init__(self, batches):
-        self._batches = set(batches)
+class FakeProductRepository(repository.AbstractProductRepository):
+    def __init__(self, products: List[model.Product]):
+        self._products = products  # type: List[model.Product]
 
-    def add(self, batch):
-        self._batches.add(batch)
+    def add(self, product: model.Product):
+        self._products.append(product)
 
-    def get(self, sku):
-        return next((p for p in self._batches if p.sku == sku), None)
-
-    def list(self):
-        return list(self._batches)
+    def get(self, sku: str):
+        return next((p for p in self._products if p.sku == sku), None)
 
 
 class FakeUnitOfWork(unit_of_work.AbstractUnitOfWork):
     def __init__(self):
-        self.products = FakeRepository([])
+        self.products = FakeProductRepository([])
         self.committed = False
 
     def commit(self):
