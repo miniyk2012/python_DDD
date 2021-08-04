@@ -8,11 +8,16 @@ class OutOfStock(Exception):
     pass
 
 
+class InvalidProduct(Exception):
+    pass
+
+
 class Product:
     """ dummy implementation, fixme"""
 
     def __init__(self, sku, batches, version_number: int = 0):
         self.sku = sku  # type: str
+        self._check_batches(batches)
         self.batches = batches  # type: List[Batch]
         self.version_number = version_number
 
@@ -24,6 +29,11 @@ class Product:
             return batch.reference
         except StopIteration:
             raise OutOfStock(f"Out of stock for sku {line.sku}")
+
+    def _check_batches(self, batches):
+        if batches:
+            if not all(batch.sku == batches[0].sku for batch in batches):
+                raise InvalidProduct('product里的batch的sku不完全一致')
 
 
 @dataclass(unsafe_hash=True)

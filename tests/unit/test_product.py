@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 import pytest
-from allocation.domain.model import Product, OrderLine, Batch, OutOfStock
+from allocation.domain.model import Product, OrderLine, Batch, OutOfStock, InvalidProduct
 
 today = date.today()
 tomorrow = today + timedelta(days=1)
@@ -49,6 +49,13 @@ def test_raises_out_of_stock_exception_if_cannot_allocate():
 
     with pytest.raises(OutOfStock, match="SMALL-FORK"):
         product.allocate(OrderLine("order2", "SMALL-FORK", 1))
+
+
+def test_raise_invalidproduct_exception_if_batches_sku_different():
+    in_stock_batch = Batch("in-stock-batch-ref", "HIGHBROW-POSTER-A", 100, eta=None)
+    shipment_batch = Batch("shipment-batch-ref", "HIGHBROW-POSTER-B", 100, eta=tomorrow)
+    with pytest.raises(InvalidProduct, match="product里的batch的sku不完全一致"):
+        Product(sku="HIGHBROW-POSTER", batches=[in_stock_batch, shipment_batch])
 
 
 @pytest.mark.skip
