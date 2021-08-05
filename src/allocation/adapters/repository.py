@@ -17,7 +17,7 @@ class ProductRepository(AbstractProductRepository):
         self.session = session
 
     def add(self, product):
-        pass
+        self.session.add(product)
 
     def get(self, sku):
-        pass
+        return self.session.query(model.Product).filter_by(sku=sku).first()
