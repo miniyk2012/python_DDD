@@ -111,6 +111,8 @@ def test_concurrent_updates_to_version_are_not_allowed(postgres_session_factory)
     )
     assert version == 2
     [exception] = exceptions
+    # postgres和mysql不同, 先后开启事务A、B。A更新a，B更新a。
+    # 后提交的会回滚：could not serialize access due to concurrent update
     assert "could not serialize access due to concurrent update" in str(exception)
 
     orders = session.execute(
