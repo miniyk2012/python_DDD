@@ -77,6 +77,7 @@ def test_rolls_back_on_error(session_factory):
 
 def try_to_allocate(orderid, sku, exceptions):
     line = model.OrderLine(orderid, sku, 10)
+
     try:
         with unit_of_work.SqlAlchemyUnitOfWork() as uow:
             product = uow.products.get(sku=sku)
