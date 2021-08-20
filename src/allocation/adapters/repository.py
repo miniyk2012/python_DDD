@@ -29,7 +29,7 @@ class TrackingRepository:
         return product
 
 
-class SqlAlchemyRepository(AbstractRepository):
+class SqlAlchemyRepository:
     def __init__(self, session):
         self.session = session
 

@@ -4,7 +4,6 @@
     <list default="true" id="fac9474a-6ab3-4099-9567-488d1caed295" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/allocation/adapters/repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/allocation/adapters/repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/unit/test_services.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unit/test_services.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +160,7 @@
         <item itemvalue="Makefile.test" />
         <item itemvalue="Makefile.test" />
         <item itemvalue="Makefile.test" />
-        <item itemvalue="Python tests.pytest for test_services.test_add_batch_for_new_product" />
+        <item itemvalue="Makefile.test" />
       </list>
     </recent_temporary>
   </component>
@@ -197,7 +196,7 @@
       <workItem from="1628377742294" duration="4706000" />
       <workItem from="1628465014187" duration="1497000" />
       <workItem from="1629331856783" duration="451000" />
-      <workItem from="1629415070429" duration="3776000" />
+      <workItem from="1629415070429" duration="4254000" />
     </task>
     <servers />
   </component>
@@ -224,15 +223,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/tests/unit/test_services.py</url>
-          <line>42</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="tests">
         <watch expression="uow.session" language="Python" />
