@@ -12,7 +12,7 @@ class Product:
         self.version_number = version_number
         self.events = []  # type: List[events.Event]
 
-    def allocate(self, line: OrderLine) -> str:
+    def allocate(self, line: OrderLine) -> Optional[str]:
         try:
             batch = next(b for b in sorted(self.batches) if b.can_allocate(line))
             batch.allocate(line)

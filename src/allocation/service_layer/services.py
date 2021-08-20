@@ -34,7 +34,7 @@ def allocate(
     sku: str,
     qty: int,
     uow: unit_of_work.AbstractUnitOfWork,
-) -> str:
+) -> Optional[str]:
     line = OrderLine(orderid, sku, qty)
     with uow:
         product = uow.products.get(sku=line.sku)

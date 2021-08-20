@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fac9474a-6ab3-4099-9567-488d1caed295" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/allocation/adapters/repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/allocation/adapters/repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/unit/test_services.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unit/test_services.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/allocation/domain/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/allocation/domain/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/allocation/service_layer/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/allocation/service_layer/services.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/allocation/service_layer/unit_of_work.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/allocation/service_layer/unit_of_work.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,9 +159,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Makefile.test" />
+        <item itemvalue="Makefile.test" />
         <item itemvalue="Python tests.pytest for test_services.test_add_batch_for_new_product" />
         <item itemvalue="Python tests.pytest for test_services.test_add_batch_for_existing_product" />
-        <item itemvalue="Makefile.test" />
         <item itemvalue="Makefile.test" />
       </list>
     </recent_temporary>
@@ -196,7 +198,7 @@
       <workItem from="1628377742294" duration="4706000" />
       <workItem from="1628465014187" duration="1497000" />
       <workItem from="1629331856783" duration="451000" />
-      <workItem from="1629415070429" duration="3296000" />
+      <workItem from="1629415070429" duration="3513000" />
     </task>
     <servers />
   </component>

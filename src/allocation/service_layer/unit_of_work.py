@@ -12,7 +12,7 @@ from . import messagebus
 
 
 class AbstractUnitOfWork(abc.ABC):
-    products: repository.AbstractRepository
+    products: repository.TrackingRepository
 
     def __enter__(self) -> AbstractUnitOfWork:
         return self
