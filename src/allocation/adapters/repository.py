@@ -5,18 +5,10 @@ from allocation.domain import model
 
 class AbstractRepository(Protocol):
     def add(self, product: model.Product):
-        self._add(product)
+        ...
 
     def get(self, sku) -> model.Product:
-        return self._get(sku)
-
-    @abc.abstractmethod
-    def _add(self, product: model.Product):
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def _get(self, sku) -> model.Product:
-        raise NotImplementedError
+        ...
 
 
 class TrackingRepository:
@@ -41,8 +33,8 @@ class SqlAlchemyRepository(AbstractRepository):
     def __init__(self, session):
         self.session = session
 
-    def _add(self, product):
+    def add(self, product):
         self.session.add(product)
 
-    def _get(self, sku):
+    def get(self, sku):
         return self.session.query(model.Product).filter_by(sku=sku).first()
