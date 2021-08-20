@@ -1,3 +1,4 @@
+import abc
 from typing import Set, Protocol
 from allocation.domain import model
 
@@ -8,6 +9,14 @@ class AbstractRepository(Protocol):
 
     def get(self, sku) -> model.Product:
         return self._get(sku)
+
+    @abc.abstractmethod
+    def _add(self, product: model.Product):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def _get(self, sku) -> model.Product:
+        raise NotImplementedError
 
 
 class TrackingRepository:
