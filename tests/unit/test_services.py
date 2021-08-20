@@ -1,6 +1,7 @@
 from unittest import mock
 import pytest
 from allocation.adapters import repository
+from allocation.adapters.repository import TrackingRepository
 from allocation.service_layer import services, unit_of_work
 
 
@@ -18,7 +19,7 @@ class FakeRepository(repository.AbstractRepository):
 
 class FakeUnitOfWork(unit_of_work.AbstractUnitOfWork):
     def __init__(self):
-        self.products = FakeRepository([])
+        self.products = TrackingRepository(FakeRepository([]))
         self.committed = False
 
     def _commit(self):

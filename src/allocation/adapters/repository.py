@@ -4,10 +4,10 @@ from allocation.domain import model
 
 class AbstractRepository(Protocol):
     def add(self, product: model.Product):
-        ...
+        self._add(product)
 
     def get(self, sku) -> model.Product:
-        ...
+        return self._get(sku)
 
 
 class TrackingRepository:
@@ -28,12 +28,12 @@ class TrackingRepository:
         return product
 
 
-class SqlAlchemyRepository:
+class SqlAlchemyRepository(AbstractRepository):
     def __init__(self, session):
         self.session = session
 
-    def add(self, product):
+    def _add(self, product):
         self.session.add(product)
 
-    def get(self, sku):
+    def _get(self, sku):
         return self.session.query(model.Product).filter_by(sku=sku).first()
