@@ -1,9 +1,9 @@
-import abc
 from typing import Set, Protocol
 from allocation.domain import model
 
 
 class AbstractRepository(Protocol):
+    """使用Protocol可以避免使用inheritance"""
     def add(self, product: model.Product):
         ...
 
