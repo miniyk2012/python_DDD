@@ -16,6 +16,8 @@ class FakeRepository(repository.AbstractRepository):
         return next(b for b in self._batches if b.reference == reference)
 
     def list(self):
+        for batch in self._batches:
+            super().add(batch)
         return list(self._batches)
 
 

@@ -15,7 +15,7 @@ class AbstractRepository(abc.ABC):
     def get(self, reference) -> model.Batch:
         p = self._get(reference)
         if p:
-            self.seen.add(p)
+            self.seen.add(p)  # 这个极其重要, Repository记录了所遇到的domain aggregate
         return p
 
     @abc.abstractmethod
@@ -39,4 +39,7 @@ class DjangoRepository(AbstractRepository):
         )
 
     def list(self):
-        return [b.to_domain() for b in django_models.Batch.objects.all()]
+        ret = [b.to_domain() for b in django_models.Batch.objects.all()]
+        for batch in ret:  # 这个极其重要, Repository记录了所遇到的domain aggregate
+            super().add(batch)
+        return ret
