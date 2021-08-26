@@ -25,7 +25,7 @@ class AbstractRepository(abc.ABC):
 
 class DjangoRepository(AbstractRepository):
     def add(self, batch):
-        super().add(batch)
+        super().add(batch)   # 这个极其重要, Repository记录了所遇到的domain aggregate
         self.update(batch)
 
     def update(self, batch):
