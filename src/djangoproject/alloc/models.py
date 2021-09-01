@@ -11,7 +11,7 @@ class Batch(models.Model):
     @staticmethod
     def update_from_domain(batch: domain_model.Batch):
         try:
-            b = Batch.objects.get(reference=batch.reference)
+            b = Batch.objects.get(reference=batch.reference)  # 对应的domain model是Entity, 用唯一键去取值比较好
         except Batch.DoesNotExist:
             b = Batch(reference=batch.reference)
         b.sku = batch.sku
@@ -47,7 +47,7 @@ class OrderLine(models.Model):
     @staticmethod
     def from_domain(line):
         l, _ = OrderLine.objects.get_or_create(
-            orderid=line.orderid, sku=line.sku, qty=line.qty
+            orderid=line.orderid, sku=line.sku, qty=line.qty   # 对应的domain model是Value object, 用所有字段传入get_or_create就行了
         )
         return l
 
