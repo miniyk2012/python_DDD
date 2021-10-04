@@ -9,14 +9,14 @@ from sqlalchemy.exc import OperationalError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, clear_mappers
 
-from allocation.adapters.orm import metadata, start_mappers
+from allocation.adapters.orm import mapper_registry, start_mappers
 from allocation import config
 
 
 @pytest.fixture
 def in_memory_db():
     engine = create_engine("sqlite:///:memory:")
-    metadata.create_all(engine)
+    mapper_registry.metadata.create_all(engine)
     return engine
 
 
@@ -57,7 +57,7 @@ def wait_for_webapp_to_come_up():
 def postgres_db():
     engine = create_engine(config.get_postgres_uri())
     wait_for_postgres_to_come_up(engine)
-    metadata.create_all(engine)
+    mapper_registry.metadata.create_all(engine)
     return engine
 
 
